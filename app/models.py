@@ -7,6 +7,8 @@
 login_manager回调函数的作用:
     注册回调函数， 当没有session_id时， 通过装饰器指定的函数来读取用户到sesion中， 达到前端可通过current_user获取当前用户的目的
 """
+from datetime import datetime
+
 from itsdangerous import TimedJSONWebSignatureSerializer
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db, login_manager
@@ -17,6 +19,12 @@ from flask_login import UserMixin
 user = User(username="westos")
 user.password = 'westos123'
 user.password
+
+关系的分析: 一对多关系中， 外键写在多的一端。
+1). Role: User = 1:N
+2). User:Todo: 1:N
+3). User:Category=1:N
+4). Category:Todo = 1:N
 """
 
 
@@ -38,8 +46,21 @@ class User(UserMixin, db.Model):
     phone = db.Column(db.String(20))
     #db.Boolean是布尔类型
     confirmed = db.Column(db.Boolean, default=False)
+
+    # 新添加的用户资料
+    name = db.Column(db.String(64)) # 用户的真实姓名
+    location = db.Column(db.String(64)) # 所在地
+    about_me = db.Column(db.Text()) # 自我介绍
+    # 注册日期
+    # default 参数可以接受函数作为默认值，
+    # 所以每次生成默认值时，db.Column() 都会调用指定的函数。 utcnow：国际通用时间
+    member_since = db.Column(db.DateTime(), default=datetime.utcnow)
+    # 最后访问日期
+    last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
     # 外键关联
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
+    todos=db.relationship('Todo',backref='user')
+    categories=db.relationship('Category',backref='user')
 
     @property
     def password(self):
@@ -73,6 +94,11 @@ class User(UserMixin, db.Model):
         db.session.commit()
         return True
 
+    def ping(self):
+        """刷新用户的最后访问时间"""
+        self.last_seen = datetime.utcnow()
+        db.session.add(self)
+
     def __repr__(self):
         return "<User: %s>" % (self.username)
 
@@ -86,6 +112,35 @@ class Role(db.Model):
 
     def __repr__(self):
         return "<Role: %s>" % (self.name)
+
+
+class Todo(db.Model):
+    __tablename__ = 'todos'
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    content = db.Column(db.String(100))  # 任务内容
+    status = db.Column(db.Boolean, default=False)  # 任务的状态
+    add_time = db.Column(db.DateTime, default=datetime.utcnow)  # 任务创建时间
+    # User:Todo: 1:N
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    # Category:Todo = 1:N
+    category_id = db.Column(db.Integer, db.ForeignKey('todos.id'))
+
+    def __repr__(self):
+        return "<Todo %s>" % (self.content[:6])
+
+
+class Category(db.Model):
+    __tablename__ = 'categories'
+    id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(20), unique=True)
+    add_time = db.Column(db.DateTime, default=datetime.utcnow)  # 任务创建时间
+    # User:Category=1:N
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    # 反向引用
+    todos = db.relationship('Todo', backref='category')
+
+    def __repr__(self):
+        return "<Category %s>" % (self.name)
 
 
 # 后续用户登录和注销时详细讲解: 加载用户的回调函数;如果能找到用户,返回用户对象;否则返回 None 。

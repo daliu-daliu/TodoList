@@ -46,6 +46,9 @@ def create_app(config_name='development'):
     # 3). 注册蓝图，和app关联在一起
     from app.auth import auth
     app.register_blueprint(auth)
+    # 附加路由和自定义的错误页面
+    from app.user import user
+    app.register_blueprint(user) # 注册蓝本
     from app.todo import  todo
     app.register_blueprint(todo, url_prefix='/todo')
     return  app
