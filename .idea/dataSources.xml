@@ -15,11 +15,19 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="data-dev.sqlite" uuid="0a5c4579-e56a-4393-a29a-f5559f826beb">
+    <data-source source="LOCAL" name="data-test" uuid="675f2396-5d48-49e8-b8ae-21c94f254b7a">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/data-dev.sqlite</jdbc-url>
+      <jdbc-url>jdbc:sqlite:F:\ziliao\python_kaifa\my_code\10_Flask任务清单管理系统\TodoList\data-test.sqlite</jdbc-url>
+      <libraries>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/license.txt</url>
+        </library>
+        <library>
+          <url>file://$APPLICATION_CONFIG_DIR$/jdbc-drivers/Xerial SQLiteJDBC/3.25.1/sqlite-jdbc-3.25.1.jar</url>
+        </library>
+      </libraries>
     </data-source>
   </component>
 </project>

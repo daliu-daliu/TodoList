@@ -13,6 +13,9 @@ class Config:
     # flask-sqlchemy
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+    PER_PAGE = 2
+
+
     FLASKY_MAIL_SUBJECT_PREFIX = '[TodoList]'
     FLASKY_MAIL_SENDER = '1104213995@qq.com'
 
