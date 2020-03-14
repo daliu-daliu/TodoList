@@ -13,7 +13,7 @@ class Config:
     # flask-sqlchemy
     SQLALCHEMY_COMMIT_ON_TEARDOWN = True
     SQLALCHEMY_TRACK_MODIFICATIONS = True
-    PER_PAGE = 2
+    PER_PAGE = 5
 
 
     FLASKY_MAIL_SUBJECT_PREFIX = '[TodoList]'

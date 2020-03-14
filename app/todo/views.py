@@ -22,7 +22,7 @@ def list():
     return render_template('todo/list.html', todoObj=todoPageObj, form=form)
 
 
-@todo.route('/add/', methods=['GET', 'POST'])
+@todo.route('/add/', methods=[ 'POST'])
 @login_required
 def add():
     form = AddTodoForm()
@@ -38,8 +38,7 @@ def add():
                     )
         db.session.add(todo)
         flash('添加任务成功', category='success')
-        return redirect(url_for('todo.add'))
-    return render_template('todo/add.html', form=form)
+        return redirect(url_for('todo.list'))
 
 
 # 编辑任务
