@@ -9,6 +9,8 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_mail import Mail
 from flask_login import LoginManager
+import pymysql
+pymysql.install_as_MySQLdb()  #当用户想要用mysqldb时pymysql来执行用户想要的内容
 
 
 from config import config
@@ -37,7 +39,7 @@ def create_app(config_name='development'):
 
     """
     app.config.from_object(config[config_name])
-    config[config_name].init_app(app)
+    # config[config_name].init_app(app)
     bootstrap.init_app(app)
     mail.init_app(app)
     db.init_app(app)

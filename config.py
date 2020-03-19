@@ -19,15 +19,6 @@ class Config:
     FLASKY_MAIL_SUBJECT_PREFIX = '[TodoList]'
     FLASKY_MAIL_SENDER = '1104213995@qq.com'
 
-    @staticmethod
-    def init_app(app):
-        """
-        初始化app，当前不用， 后续完善， 用来添加第三方插件的
-        :param app:
-        :return:
-        """
-        pass
-
 
 class DevelopmentConfig(Config):
     """
@@ -57,7 +48,17 @@ class ProductionConfig(Config):
     """
    生产环境的配置信息
    """
-    SQLALCHEMY_DATABASE_URI = 'sqlite:///' + os.path.join(basedir, 'data.sqlite')
+    #生产环境是False
+    DEBUG = False
+    # MAIL_SERVER = 'smtp.qq.com'
+    MAIL_SERVER = 'smtp.163.com'
+    # MAIL_PORT = 587/465
+    MAIL_PORT = 25
+    # MAIL_USE_SSL = True   # 163邮箱不能打开这个参数
+    MAIL_USERNAME = '13679127704@163.com'
+    MAIL_PASSWORD = '13279443585lh'
+    #'mysql://用户名：密码@主机/数据库名'
+    SQLALCHEMY_DATABASE_URI = 'mysql://flask:123lh@47.105.62.144/todolist'
 
 
 config = {

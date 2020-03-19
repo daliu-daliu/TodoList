@@ -13,7 +13,8 @@ from flask_migrate import Migrate, MigrateCommand
 
 from app.models import Role, User
 
-app = create_app()
+#默认是开发环境
+app = create_app(config_name='production')
 manager = Manager(app)
 # 将数据库迁移插件与数据库db和app关联
 migrate = Migrate(app, db)
