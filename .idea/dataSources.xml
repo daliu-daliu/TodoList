@@ -29,5 +29,11 @@
         </library>
       </libraries>
     </data-source>
+    <data-source source="LOCAL" name="todo" uuid="23d2a8ac-f03f-4931-8474-a881d49631f6">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://47.105.62.144:3306/todolist</jdbc-url>
+    </data-source>
   </component>
 </project>
