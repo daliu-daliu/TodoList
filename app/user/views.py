@@ -14,7 +14,21 @@ def get_user(id):
     if user is None:
         abort(404)  # 抛出一个404异常
     else:
-        return render_template('user/user.html', user=user)
+        #总任务数，完成任务数，未完成任务数
+        todos=user.todos
+        print(user.todos)
+        all_count=len(user.todos)
+        undo_count=done_count=0
+        for todo in todos:
+            if todo.status:
+                done_count+=1
+            else:
+                undo_count+=1
+
+        return render_template('user/user.html', user=user,
+                               all_count=all_count,
+                               done_count=done_count,
+                               undo_count=undo_count)
 
 
 @user.route('/changepwd/<id>')

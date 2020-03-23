@@ -11,7 +11,7 @@ from app import create_app, db
 from flask_script import Manager, Shell
 from flask_migrate import Migrate, MigrateCommand
 
-from app.models import Role, User
+from app.models import Role, User, Category, Todo
 
 #默认是开发环境
 app = create_app(config_name='production')
@@ -31,9 +31,18 @@ def tests():
     # verbosity是测试结果的信息复杂度，有0、1、2 三个值
     unittest.TextTestRunner(verbosity=2).run(tests)
 
+@manager.command
+def category_init():
+    '''初始化分类信息'''
+    ca1=Category(name='重要紧急任务')
+    ca2=Category(name='重要紧不急任务')
+    ca3=Category(name='不重要紧急任务')
+    ca4=Category(name='不重要不紧急任务')
+    db.session.all_all([ca1,ca2,ca3,ca4])
+    db.session.commit()
 
 def make_shell_context():
-    return dict(app=app, db=db, Role=Role, User=User)
+    return dict(app=app, db=db, Role=Role, User=User,Category=Category,Todo=Todo)
 
 
 if __name__ == '__main__':
